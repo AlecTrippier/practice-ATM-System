@@ -6,7 +6,8 @@ public class ATMSystem {
 
     public Map<Integer, String> menu = new HashMap<Integer, String>(); // ATMのメニュー
     private Scanner scanner; // scannerインスタンス
-    private int balance;
+    private int balance = 0;
+
 
     public ATMSystem() {
         menu.put(1, "預け入れ");
@@ -42,19 +43,35 @@ public class ATMSystem {
     }
 
     public void selectMessage(int inputNumber) {
+
+        int currentBalance; //貯蓄額を一時記憶する
+
         switch (inputNumber) {
-            case 1:
-                System.out.println("ご入金額を入力してください");
-                DepositHandler.depositHandler();
+            case 1://預け入れ
+
+
+                currentBalance = DepositHandler.depositHandler(getBalance());
+
+                setBalance(currentBalance);
+
                 mainSystem();
 
                 break;
-            case 2:
+            case 2://引き出し
+
+                currentBalance = WithdrawalHandler.withdrawalHandler(getBalance());
+
+                setBalance(currentBalance);
+
+                mainSystem();
+
                 break;
-            case 3:
-                System.out.println("残高は " + getBalance() + " 円です");
+            case 3://残高照会
+
+                BalanceInquiryHandler.balanceInquiryHandler(getBalance());
+                mainSystem();
                 break;
-            case 4:
+            case 4://終了
                 systemExit();
                 break;
         }
